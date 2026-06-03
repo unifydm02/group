@@ -332,7 +332,7 @@ const SINGERS = [
 ];
 
 // ===== เปลี่ยนเลขนี้เพื่อ reset โหวตทุกคน =====
-const VOTE_VERSION = 'v2';
+const VOTE_VERSION = 'v1';
 if (localStorage.getItem('ug_vote_ver') !== VOTE_VERSION) {
   localStorage.removeItem('ug_voted_singer');
   localStorage.removeItem('ug_voted_sub');
@@ -410,8 +410,7 @@ function renderSingers() {
         <div class="vote-bar-wrap"><div class="vote-bar" style="width:${pct}%"></div></div>
         <div class="vote-num">${v} <small>โหวต (${pct}%)</small></div>
         <button class="btn-vote ${isVoted?'voted':''}" 
-          onclick="voteSinger(${s.id})"
-          ${votedSinger && !isVoted ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
+          onclick="voteSinger(${s.id})">
           ${isVoted ? '✓ โหวตแล้ว' : '🗳️ โหวตเลย'}
         </button>
       </div>`;
