@@ -214,13 +214,13 @@
   .vote-num { font-family:'Prompt',sans-serif; font-weight:700; font-size:18px; color:var(--green-bright); margin-bottom:12px; }
   .vote-num small { font-size:11px; font-weight:400; color:rgba(255,255,255,0.4); }
   .btn-vote {
-    font-family:'Prompt',sans-serif; font-weight:700; font-size:13px;
-    padding:9px 24px; background:transparent; color:var(--green-bright);
-    border:2px solid var(--green-bright); border-radius:50px; cursor:pointer;
+    font-family:'Prompt',sans-serif; font-weight:700; font-size:16px;
+    padding:16px 24px; background:transparent; color:var(--green-bright);
+    border:2px solid var(--green-bright); border-radius:16px; cursor:pointer;
     transition:all 0.25s; width:100%;
   }
   .btn-vote:hover { background:rgba(34,197,94,0.15); }
-  .btn-vote.voted { background:var(--green-bright); color:var(--green-dark); cursor:default; }
+  .btn-vote.voted { background:var(--green-bright); color:var(--green-dark); cursor:default; box-shadow: 0 0 20px rgba(34,197,94,0.7); transform: scale(1.03); font-size:14px; }
   .btn-vote:disabled { opacity:0.5; cursor:default; }
 
   /* LEADERBOARD */
@@ -401,7 +401,9 @@ function renderSingers() {
         <div class="singer-name">${s.name}</div>
         <div class="vote-bar-wrap"><div class="vote-bar" style="width:${pct}%"></div></div>
         <div class="vote-num">${v} <small>โหวต (${pct}%)</small></div>
-        <button class="btn-vote ${isVoted?'voted':''}" onclick="voteSinger(${s.id})">
+        <button class="btn-vote ${isVoted?'voted':''}" 
+          onclick="voteSinger(${s.id})"
+          ${votedSinger && !isVoted ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
           ${isVoted ? '✓ โหวตแล้ว' : '🗳️ โหวตเลย'}
         </button>
       </div>`;
@@ -449,7 +451,9 @@ function renderSubmissions() {
         <div class="sub-by">โดย ${s.by}</div>
       </div>
       <div class="vote-count-sm">${s.votes}<small>โหวต</small></div>
-      <button class="btn-vote-sm ${votedSub==s.id?'voted':''}" onclick="voteParty(${s.id})">
+      <button class="btn-vote-sm ${votedSub==s.id?'voted':''}" 
+        onclick="voteParty(${s.id})"
+        ${votedSub && votedSub!=s.id ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
         ${votedSub==s.id ? '✓ โหวตแล้ว' : '👍 โหวต'}
       </button>
     </div>`).join('');
@@ -514,7 +518,7 @@ function saveScriptUrl() {
 }
 
 // ── POLLING (refresh ทุก 10 วิ) ───────────────────────────
-setInterval(() => { loadSingerData(); loadPartyData(); }, 10000);
+setInterval(() => { loadSingerData(); loadPartyData(); }, 5000);
 
 // ── INIT ──────────────────────────────────────────────────
 if (!SCRIPT_URL) {
