@@ -192,7 +192,7 @@
     border:1px solid rgba(34,197,94,0.2); border-radius:20px;
     padding:22px 16px 18px; text-align:center; transition:all 0.3s; position:relative; overflow:hidden;
   }
-  .singer-card::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 0%,rgba(34,197,94,0.08),transparent 70%); opacity:0; transition:opacity 0.3s; }
+  .singer-card::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 0%,rgba(34,197,94,0.08),transparent 70%); opacity:0; transition:opacity 0.3s; pointer-events: none; }
   .singer-card:hover::before { opacity:1; }
   .singer-card:hover { border-color:rgba(34,197,94,0.5); transform:translateY(-4px); box-shadow:0 12px 36px rgba(34,197,94,0.14); }
   .singer-avatar {
@@ -218,6 +218,7 @@
     padding:16px 24px; background:transparent; color:var(--green-bright);
     border:2px solid var(--green-bright); border-radius:16px; cursor:pointer;
     transition:all 0.25s; width:100%;
+    position: relative; z-index: 10;
   }
   .btn-vote:hover { background:rgba(34,197,94,0.15); }
   .btn-vote.voted { background:var(--green-bright); color:var(--green-dark); cursor:default; box-shadow: 0 0 20px rgba(34,197,94,0.7); transform: scale(1.03); font-size:14px; }
