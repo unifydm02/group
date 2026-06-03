@@ -331,6 +331,14 @@ const SINGERS = [
   { id:7, name:'ทีม U49',    color:'#bbf7d0', initials:'U49' },
 ];
 
+// ===== เปลี่ยนเลขนี้เพื่อ reset โหวตทุกคน =====
+const VOTE_VERSION = 'v2';
+if (localStorage.getItem('ug_vote_ver') !== VOTE_VERSION) {
+  localStorage.removeItem('ug_voted_singer');
+  localStorage.removeItem('ug_voted_sub');
+  localStorage.setItem('ug_vote_ver', VOTE_VERSION);
+}
+
 // state local (เพื่อรู้ว่าคนนี้โหวตอะไรไปแล้ว)
 let votedSinger = localStorage.getItem('ug_voted_singer') || null;
 let votedSub    = localStorage.getItem('ug_voted_sub')    || null;
