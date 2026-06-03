@@ -426,10 +426,11 @@ async function voteSinger(id) {
   if (votedSinger) { showToast('คุณโหวตไปแล้ว 1 ทีม'); return; }
   votedSinger = String(id);
   localStorage.setItem('ug_voted_singer', votedSinger);
-  if (singerData[id]) singerData[id].votes++;
+  // ถ้ายังไม่มีข้อมูลใน singerData ให้สร้างขึ้นมาก่อน
+  if (!singerData[id]) singerData[id] = { votes: 0 };
+  singerData[id].votes++;
   renderSingers();
   showToast('🎤 โหวตให้ทีมเรียบร้อย!');
-  // ส่งข้อมูลไป Google Sheets (fire and forget)
   const img = new Image();
   img.src = SCRIPT_URL + '?action=voteSinger&teamId=' + id;
 }
