@@ -332,9 +332,17 @@ const SINGERS = [
   { id:7, name:'ทีม U49',    color:'#bbf7d0', initials:'U49' },
 ];
 
-// state local
-let votedSinger = null;  // ทีมที่กดล่าสุด (แค่เปลี่ยนสีปุ่ม)
-let votedSub    = null;
+// ===== เปลี่ยนเลขนี้เพื่อ reset โหวตทุกคน (v1 → v2 → v3 ...) =====
+const VOTE_VERSION = 'v1';
+if (localStorage.getItem('ug_vote_ver') !== VOTE_VERSION) {
+  localStorage.removeItem('ug_voted_singer');
+  localStorage.removeItem('ug_voted_sub');
+  localStorage.setItem('ug_vote_ver', VOTE_VERSION);
+}
+
+// state local - 1 เครื่อง 1 โหวต
+let votedSinger = localStorage.getItem('ug_voted_singer') || null;
+let votedSub    = localStorage.getItem('ug_voted_sub')    || null;
 let singerData  = {};
 let partyData   = [];
 
@@ -423,10 +431,11 @@ function renderLeaderboard() {
 }
 
 async function voteSinger(id) {
+  if (votedSinger) { showToast('คุณโหวตไปแล้ว 1 ทีม'); return; }
   if (!singerData[id]) singerData[id] = { votes: 0 };
   singerData[id].votes++;
-  // เก็บว่ากดทีมไหนล่าสุด (เพื่อเปลี่ยนสีปุ่ม)
   votedSinger = String(id);
+  localStorage.setItem('ug_voted_singer', votedSinger);
   renderSingers();
   showToast('🎤 โหวตให้ทีมเรียบร้อย!');
   const img = new Image();
@@ -477,7 +486,9 @@ async function submitName() {
 }
 
 async function voteParty(id) {
+  if (votedSub) { showToast('คุณโหวตไปแล้ว 1 ชื่อ'); return; }
   votedSub = String(id);
+  localStorage.setItem('ug_voted_sub', votedSub);
   const entry = partyData.find(p => String(p.id) === String(id));
   if (entry) entry.votes++;
   renderSubmissions();
