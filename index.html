@@ -526,7 +526,16 @@ function saveScriptUrl() {
 }
 
 // ── POLLING (refresh ทุก 10 วิ) ───────────────────────────
-setInterval(() => { loadSingerData(); loadPartyData(); }, 5000);
+// Polling แบบไม่ทำลาย UI ขณะ user กำลังคลิก
+let isUserInteracting = false;
+document.addEventListener('mousedown', () => { isUserInteracting = true; setTimeout(()=>{isUserInteracting=false;}, 2000); });
+document.addEventListener('touchstart', () => { isUserInteracting = true; setTimeout(()=>{isUserInteracting=false;}, 2000); });
+
+setInterval(() => { 
+  if (isUserInteracting) return;
+  loadSingerData(); 
+  loadPartyData(); 
+}, 5000);
 
 // ── INIT ──────────────────────────────────────────────────
 if (!SCRIPT_URL) {
